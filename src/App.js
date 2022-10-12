@@ -1,13 +1,14 @@
+import Header from "./components/Header"
+
+
 function App() {
-    const title = 'Blog post'
-    const body = 'rand text'
-
-
     return(
-        <div className='cont'>
-            <h1>{title}</h1>
-            <p>{body}</p>
+        <>
+        <Header text='Helloworld'/>
+        <div className="container">
+            <h2>My app</h2>
         </div>
+        </>
     )
     
 }
