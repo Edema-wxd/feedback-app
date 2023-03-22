@@ -1,48 +1,53 @@
 import Card from "./shared/Card";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Button from "./shared/Button";
 import RatingSelect from "./RatingSelect";
 import FeedbackContext from "../context/FeedbackContext";
 
 function FeedbackForm() {
-	
 	const [text, setText] = useState("");
 	const [rating, setRating] = useState(10);
 	const [btnDisabled, setBtnDisabled] = useState(true);
 	const [message, setMessage] = useState("");
 	const handleTextChange = (e) => {
-		if (text === '') {
-			setBtnDisabled(true)
-			setMessage(null)
-		} else if (text !== '' && text.trim().length <= 10){
-			setMessage('Text must be atleast 10 characters')
-			setBtnDisabled(true)
+		if (text === "") {
+			setBtnDisabled(true);
+			setMessage(null);
+		} else if (text !== "" && text.trim().length <= 10) {
+			setMessage("Text must be atleast 10 characters");
+			setBtnDisabled(true);
 		} else if (text.trim().length >= 10) {
-			setMessage(null)
-			setBtnDisabled(false)
-			
+			setMessage(null);
+			setBtnDisabled(false);
 		}
 		setText(e.target.value);
-		};
-	
-	const {addFeedback} = useContext(FeedbackContext)
+	};
 
-	const handleClick = (mess) =>{
-		console.log(mess)
-	}
+	const { addFeedback, feedbackEdit } = useContext(FeedbackContext);
+
+	useEffect(() => {
+		if (feedbackEdit.edit === true) {
+			setBtnDisabled(false);
+			setText(feedbackEdit.item.text);
+			setRating(feedbackEdit.item.rating);
+		}
+	}, [feedbackEdit]);
+
+	const handleClick = (mess) => {
+		console.log(mess);
+	};
 	const handleSubmit = (e) => {
-		e.preventDefault()
-		if (text.trim().length > 10){
+		e.preventDefault();
+		if (text.trim().length > 10) {
 			const newFeedback = {
 				text,
 				rating,
-			}
-			addFeedback(newFeedback)
-			setText('')
+			};
+			addFeedback(newFeedback);
+			setText("");
 		}
-	}
+	};
 
-	
 	return (
 		<Card>
 			<form onSubmit={handleSubmit}>
@@ -55,7 +60,7 @@ function FeedbackForm() {
 						placeholder="Write a review"
 						value={text}
 					/>
-					<Button onClick={handleClick} type='submit' isDisabled={btnDisabled}>
+					<Button onClick={handleClick} type="submit" isDisabled={btnDisabled}>
 						Send
 					</Button>
 				</div>
