@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types'
+
+
 function Header() {
   return (
     <div>
@@ -5,5 +8,8 @@ function Header() {
     </div>
   )
 }
+
+
+
 
 export default Header
